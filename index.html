@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>給最特別的妳</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Fredoka+One&display=swap" rel="stylesheet">
+    <title>給妳的小驚喜</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
+        /* 深夜浪漫氛圍背景 */
         body {
             margin: 0;
             padding: 0;
@@ -14,185 +14,184 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-            background-color: #ffdde1;
-            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(to bottom right, #2c0e26, #5d1339, #9a1f40);
+            font-family: "Microsoft JhengHei", sans-serif;
             overflow: hidden;
-            text-align: center;
+            color: #fff;
         }
 
-        .container {
+        /* 玻璃擬態卡片 */
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            text-align: center;
+            max-width: 90%;
+            width: 380px;
             position: relative;
             z-index: 10;
-            width: 90%;
-            max-width: 400px;
         }
 
         h1 {
-            color: #ff4b4b;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            font-family: 'Fredoka One', cursive; /* 圓潤可愛的英文字體 */
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
-        .question-box {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 40px 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            transition: all 0.5s ease;
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #ffe6e6;
         }
 
-        .buttons {
+        /* 按鈕容器：修正重疊問題 */
+        .btn-container {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-            position: relative;
-            height: 60px; /* 保留空間給按鈕移動 */
+            justify-content: center; /* 左右置中 */
+            align-items: center;
+            gap: 30px; /* 按鈕之間的距離 */
+            margin-top: 20px;
+            min-height: 60px; /* 預留高度 */
         }
 
         button {
-            padding: 12px 30px;
-            font-size: 1.2rem;
+            padding: 12px 32px;
+            font-size: 18px;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s;
-            font-family: 'Noto Sans TC', sans-serif;
+            transition: transform 0.2s, box-shadow 0.2s;
             font-weight: bold;
+            white-space: nowrap; /* 防止文字換行 */
         }
 
+        /* 答應按鈕 */
         .btn-yes {
-            background: #ff4757;
+            background: linear-gradient(45deg, #ff6b6b, #ff4757);
             color: white;
-            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.5);
         }
         
         .btn-yes:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.7);
         }
 
+        /* 拒絕按鈕 (會逃跑) */
         .btn-no {
-            background: #dfe4ea;
-            color: #747d8c;
-            position: absolute; /* 讓它可以自由移動 */
-            transition: all 0.2s ease; /* 移動時有滑順感 */
+            background: rgba(255, 255, 255, 0.2);
+            color: #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        /* 隱藏的告白區塊 */
-        .love-letter {
+        /* 隱藏的信件內容 */
+        .hidden-content {
             display: none;
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(255, 75, 75, 0.2);
-            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 20px;
+            animation: fadeIn 0.8s;
         }
 
-        .love-text {
-            font-size: 1.1rem;
+        .love-msg {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 16px;
             line-height: 1.8;
-            color: #2f3542;
-            min-height: 100px;
-            text-align: left; /* 文字靠左比較像信件 */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        .sticker {
-            width: 120px;
-            margin-bottom: 20px;
-            animation: bounce 2s infinite;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        /* 背景飄浮愛心 */
+        .bg-heart {
+            position: absolute;
+            color: rgba(255, 192, 203, 0.3);
+            animation: floatUp 8s linear infinite;
+            z-index: 1;
+            user-select: none;
         }
 
-        @keyframes popIn {
-            from { opacity: 0; transform: scale(0.5); }
-            to { opacity: 1; transform: scale(1); }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
         }
-
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="question-box" id="questionBox">
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGIwZGE1N2Y4zb3c5eGV5cGR4Z2V5cGR4Z2V5cGR4ZyZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PXM/3oriO0OEd9QIDdllqo/giphy.gif" class="sticker" alt="Cute Sticker">
-            
-            <h1>情人節快樂！</h1>
-            <p>雖然有點晚了，但我還是想問...</p>
-            <p style="font-size: 1.2rem; font-weight: bold;">妳願意一直陪在我身邊嗎？</p>
+    <div id="bg-container"></div>
 
-            <div class="buttons">
-                <button class="btn-no" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">不要</button>
-                
-                <button class="btn-yes" onclick="showLove()">好啊！</button>
-            </div>
+    <div class="card" id="mainCard">
+        <h1>情人節快樂 🌙</h1>
+        <p>今天是 2/14 的最後時刻<br>我想問妳一個重要的問題...</p>
+        <p style="font-size: 22px; font-weight: bold; color: #fff;">明年、後年，妳都願意陪我過嗎？</p>
+
+        <div class="btn-container">
+            <button class="btn-no" id="noBtn" onmouseover="runAway()" onclick="runAway()">不要</button>
+            
+            <button class="btn-yes" onclick="sayYes()">好啊！</button>
         </div>
 
-        <div class="love-letter" id="loveLetter">
-            <img src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" class="sticker" alt="Love Sticker">
-            <h2>我就知道妳會答應！❤️</h2>
-            <p class="love-text" id="typewriterText"></p>
-            <p style="color: #ff4757; font-size: 0.9rem; margin-top: 20px;">(截圖這張卡片傳給我，兌換一份宵夜/禮物！)</p>
+        <div class="hidden-content" id="loveLetter">
+            <div class="love-msg">
+                <strong>To 親愛的 [對方名字]：</strong><br><br>
+                謝謝妳點下了「好啊」！<br>
+                雖然時間有點晚了，<br>
+                但想對妳好的心是不會遲到的。<br>
+                情人節快樂，以後請多指教！❤️<br>
+                <br>
+                <span style="font-size: 14px; color: #666; float: right;">-- 愛妳的 [你的名字]</span>
+                <div style="clear: both;"></div>
+            </div>
         </div>
     </div>
 
     <script>
-        // 設定你的告白內容 (支援 HTML 標籤如 <br> 換行)
-        // 記得把下面這段文字改成你自己的！
-        const myMessage = `
-            親愛的 [對方名字]：<br><br>
-            雖然今天是情人節的最後一刻，<br>
-            但我想對妳的心意是 24 小時都不打烊的。<br><br>
-            謝謝妳包容我的忙碌/笨拙，<br>
-            有妳在身邊，每天都像過節一樣開心。<br>
-            這個網站雖然簡單，但是是我親手為妳做的喔！<br><br>
-            愛妳的 [你的名字] 上
-        `;
-
-        // -------------------------------------------------
-        // 下面的程式碼負責互動特效，不需要修改
-        // -------------------------------------------------
-
-        function moveButton() {
+        // 1. 拒絕按鈕逃跑邏輯 (修正重疊問題：採用 Fixed 定位脫離文檔流)
+        function runAway() {
             const btn = document.getElementById('noBtn');
-            const box = document.querySelector('.question-box');
+            const card = document.querySelector('.card');
             
-            // 計算隨機位置，確保按鈕不會跑出框框太遠
-            const boxRect = box.getBoundingClientRect();
-            const maxX = window.innerWidth - btn.offsetWidth - 20;
-            const maxY = window.innerHeight - btn.offsetHeight - 20;
-
-            const x = Math.random() * (maxX - 20) + 10;
-            const y = Math.random() * (maxY - 20) + 10;
+            // 讓按鈕變成絕對定位，這樣它就能飛出去了
+            btn.style.position = 'fixed'; 
             
-            // 使用 Fixed 定位讓它可以在整個螢幕亂跑
-            btn.style.position = 'fixed';
+            // 計算安全範圍 (避免跑出螢幕外)
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
         }
 
-        function showLove() {
-            // 隱藏問題，顯示情書
-            document.getElementById('questionBox').style.display = 'none';
+        // 2. 答應後的特效
+        function sayYes() {
+            // 隱藏上面的問題與按鈕
+            document.querySelector('h1').innerText = "我就知道妳最好❤️";
+            document.querySelector('p').style.display = 'none';
+            document.querySelector('.btn-container').style.display = 'none';
+            
+            // 顯示信件
             document.getElementById('loveLetter').style.display = 'block';
 
-            // 發射彩帶特效
+            // 放煙火
             fireConfetti();
-
-            // 開始打字機效果
-            typeWriter(myMessage, 'typewriterText');
         }
 
-        // 彩帶爆炸特效函數
+        // 煙火特效
         function fireConfetti() {
-            var duration = 3 * 1000;
-            var end = Date.now() + duration;
+            const duration = 3000;
+            const end = Date.now() + duration;
 
             (function frame() {
                 confetti({
@@ -200,14 +199,14 @@
                     angle: 60,
                     spread: 55,
                     origin: { x: 0 },
-                    colors: ['#ff4757', '#ff6b81', '#ffffff']
+                    colors: ['#ff6b6b', '#ff4757', '#ffffff']
                 });
                 confetti({
                     particleCount: 5,
                     angle: 120,
                     spread: 55,
                     origin: { x: 1 },
-                    colors: ['#ff4757', '#ff6b81', '#ffffff']
+                    colors: ['#ff6b6b', '#ff4757', '#ffffff']
                 });
 
                 if (Date.now() < end) {
@@ -216,15 +215,21 @@
             }());
         }
 
-        // 打字機效果函數
-        function typeWriter(text, elementId) {
-            const element = document.getElementById(elementId);
-            let i = 0;
-            let currentText = '';
-            // 把 HTML 標籤處理一下，避免打字機把 <br> 拆開
-            // 這裡用簡單的模擬，直接一次顯示一行會比較順，或是快速插入
-            element.innerHTML = text; // 簡單版：直接顯示，若要逐字比較複雜，先這樣最穩
+        // 產生背景愛心
+        function createBgHearts() {
+            const container = document.getElementById('bg-container');
+            for(let i=0; i<20; i++) {
+                let heart = document.createElement('div');
+                heart.className = 'bg-heart';
+                heart.innerHTML = '❤';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(heart);
+            }
         }
+        createBgHearts();
     </script>
 </body>
 </html>
